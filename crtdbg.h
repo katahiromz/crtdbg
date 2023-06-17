@@ -19,6 +19,10 @@
     #define MZCRTIMP
 #endif
 
+#ifndef _CRT_WIDE
+    #define _CRT_WIDE(str) L##str
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -385,7 +389,7 @@ typedef struct _CrtMemState
     #ifndef _ASSERT_EXPR
         #define _ASSERT_EXPR(exp, msg)
             (void)((!!(exp)) || \
-                   (1 != _CrtDbgReport(_CRT_ASSERT, __FILE__, __LINE__, NULL, "%s", msg)) || \
+                   (1 != _CrtDbgReportW(_CRT_ASSERT, _CRT_WIDE(__FILE__), __LINE__, NULL, L"%ls", msg)) || \
                    (_CrtDbgBreak(), 0))
     #endif
     #ifndef _ASSERT
